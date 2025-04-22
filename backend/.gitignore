@@ -1,0 +1,38 @@
+###############################################################################
+# BACKEND  – Node.js + Express
+###############################################################################
+
+# Dependencies
+node_modules/
+
+# Runtime data & local databases
+*.sqlite3
+*.db
+tmp/
+pids/
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Coverage / testing
+coverage/
+.nyc_output/
+
+# Build / transpile output (if you use Babel, TS, etc.)
+dist/
+build/
+out/
+
+# Env & secrets
+.env*
+!.env.example
+
+# Local tooling
+.idea/
+.vscode/
+.DS_Store
+*.swp
+*.swo
+Thumbs.db
