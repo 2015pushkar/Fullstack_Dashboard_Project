@@ -1,0 +1,33 @@
+services:
+  js-backend:
+    build:
+      context: ./backend
+      dockerfile: ../backendDockerfile
+    container_name: js-backend
+    restart: unless-stopped
+    init: true
+    # Use env_file if .env exists in backend directory
+    env_file:
+      - ./backend/.env
+    ports:
+      - "5000:5000"  # Expose backend API
+    networks:
+      - app-network
+
+  js-frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../frontendDockerfile
+    container_name: js-frontend
+    restart: unless-stopped
+    init: true
+    ports:
+      - "3000:3000"  # Expose React frontend
+    networks:
+      - app-network
+    depends_on:
+      - js-backend  # Ensure backend is up before frontend starts
+
+networks:
+  app-network:
+    driver: bridge
