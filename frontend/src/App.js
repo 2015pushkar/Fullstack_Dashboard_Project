@@ -15,22 +15,25 @@ function App() {
   const [narratives, setNarratives] = useState({
     KPI_SUMMARY: "",
     FORECAST_OVERVIEW: "",
-    ANOMALY_SUMMARY: "", 
-    TOP_DRIVERS: ""
+    ANOMALY_SUMMARY: "",
+    TOP_DRIVERS: "",
   });
+
+  const API = process.env.REACT_APP_BACKEND_API_DOMAIN;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const [kpisRes, forecastRes, anomaliesRes, driversRes, narrativesRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/kpis"),
-          axios.get("http://localhost:5000/api/forecast"),
-          axios.get("http://localhost:5000/api/anomalies"),
-          axios.get("http://localhost:5000/api/drivers"),
-          axios.get("http://localhost:5000/api/narratives")
-        ]);
-        
+        const [kpisRes, forecastRes, anomaliesRes, driversRes, narrativesRes] =
+          await Promise.all([
+            axios.get(`${API}/api/kpis`),
+            axios.get(`${API}/api/forecast`),
+            axios.get(`${API}/api/anomalies`),
+            axios.get(`${API}/api/drivers`),
+            axios.get(`${API}/api/narratives`),
+          ]);
+
         setKpis(kpisRes.data);
         setForecast(forecastRes.data);
         setAnomalies(anomaliesRes.data);
@@ -68,7 +71,7 @@ function App() {
           </div>
           <h2 className="h4 mb-2">Error</h2>
           <p className="text-muted">{error}</p>
-          <button 
+          <button
             className="btn btn-primary mt-3"
             onClick={() => window.location.reload()}
           >
@@ -79,7 +82,7 @@ function App() {
     );
   }
 
-  const hasAnomalies = anomalies.filter(a => a.isAnomaly).length > 0;
+  const hasAnomalies = anomalies.filter((a) => a.isAnomaly).length > 0;
 
   return (
     <div className="min-vh-100 bg-light">
@@ -89,7 +92,9 @@ function App() {
           <div className="row align-items-center">
             <div className="col">
               <h1 className="h2 mb-1">Drug X Performance Dashboard</h1>
-              <p className="text-muted mb-0">Real-time analytics and insights</p>
+              <p className="text-muted mb-0">
+                Real-time analytics and insights
+              </p>
             </div>
             <div className="col-auto">
               <div className="bg-light p-2 rounded">
@@ -116,20 +121,20 @@ function App() {
               </div>
             </div>
           </div>
-          
+
           <div className="col-lg-4">
             <div className="row g-4 h-100">
               <div className="col-md-6 col-lg-12">
-                <Narrative 
-                  title="KPI Summary" 
-                  text={narratives.KPINARRATIVE} 
+                <Narrative
+                  title="KPI Summary"
+                  text={narratives.KPINARRATIVE}
                   icon="bi-graph-up"
                 />
               </div>
               <div className="col-md-6 col-lg-12">
-                <Narrative 
-                  title="Forecast Overview" 
-                  text={narratives.FORECASTNARRATIVE} 
+                <Narrative
+                  title="Forecast Overview"
+                  text={narratives.FORECASTNARRATIVE}
                   icon="bi-calendar-range"
                 />
               </div>
@@ -145,19 +150,16 @@ function App() {
                 <h5 className="mb-0">Anomaly Detection & Analysis</h5>
               </div>
               <div className="card-body">
-                <ForecastWithAnomalies 
-                  data={anomalies} 
-                  height={350} 
-                />
+                <ForecastWithAnomalies data={anomalies} height={350} />
               </div>
             </div>
           </div>
-          
+
           <div className="col-lg-4">
-            <Narrative 
-              title="Recent Anomalies" 
-              text={narratives.ANOMALYNARRATIVE} 
-              icon="bi-exclamation-triangle" 
+            <Narrative
+              title="Recent Anomalies"
+              text={narratives.ANOMALYNARRATIVE}
+              icon="bi-exclamation-triangle"
               variant={hasAnomalies ? "warning" : "info"}
             />
           </div>
@@ -171,18 +173,15 @@ function App() {
                 <h5 className="mb-0">Top Drivers of Prescription Change</h5>
               </div>
               <div className="card-body">
-                <TopDriversChart 
-                  data={drivers} 
-                  height={350} 
-                />
+                <TopDriversChart data={drivers} height={350} />
               </div>
             </div>
           </div>
-          
+
           <div className="col-lg-4">
-            <Narrative 
-              title="Top‑Drivers Insight" 
-              text={narratives.INSIGHTNARRATIVE} 
+            <Narrative
+              title="Top‑Drivers Insight"
+              text={narratives.INSIGHTNARRATIVE}
               icon="bi-lightbulb"
               variant="light"
             />
@@ -191,7 +190,9 @@ function App() {
 
         {/* Footer */}
         <footer className="text-center text-muted mt-4 pt-3 pb-4">
-          <p className="small mb-0">© {new Date().getFullYear()} Pharma Analytics. All rights reserved.</p>
+          <p className="small mb-0">
+            © {new Date().getFullYear()} Pharma Analytics. All rights reserved.
+          </p>
         </footer>
       </div>
     </div>
